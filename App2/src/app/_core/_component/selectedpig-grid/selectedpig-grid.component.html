@@ -1,0 +1,95 @@
+<ejs-grid
+          #grid
+          [dataSource]="selectedPigDataSource"
+          [enableInfiniteScrolling]="true"
+          [allowPaging]="false"
+          [pageSettings]="pageSettings"
+          [editSettings]="editSettingsPig"
+          [searchSettings]="searchOptions"
+          (actionBegin)="actionBeginPig($event)"
+          (created)="created()"
+          [toolbar]="['Search']"
+          [height]="300 + 'px'"
+          gridLines="Both"
+        >
+          <e-columns>
+            <e-column
+              field="name"
+              [allowSorting]="false"
+              [allowSearching]="false"
+              [allowGrouping]="false"
+              [allowFiltering]="false"
+              [allowEditing]="false"
+              textAlign="Left"
+              headerTextAlign="Center"
+              headerTextAlign="Center"
+              headerText="{{ 'Pig' | translate }}"
+            >
+            </e-column>
+            <e-column
+              field="recordValue"
+              [visible]="visibleValue"
+              textAlign="Left"
+              headerTextAlign="Center"
+              [headerText]="valueLabel"
+            >
+            </e-column>
+            <e-column
+              field="recordAmount"
+              [visible]="visibleAmount"
+              textAlign="Left"
+              headerTextAlign="Center"
+              editType="numericEdit"
+              headerText="{{ 'Amount' | translate }}"
+            >
+            </e-column>
+            <e-column
+              field="recordWeight"
+              textAlign="Left"
+              headerTextAlign="Center"
+              [visible]="visibleWeight"
+              editType="numericEdit"
+              headerText="{{ 'Weight' | translate }}"
+            >
+            </e-column>
+            <e-column
+              field="recordDiseaseName"
+              [visible]="visibleDisease"
+              textAlign="Left"
+              headerTextAlign="Center"
+              headerText="{{ 'Disease' | translate }}"
+            >
+            <ng-template #editTemplate let-data>
+              <app-disease-dropdownlist [(selectedValue)]="data.recordDisease" (change)="onChangeDisease($event,data)">
+              </app-disease-dropdownlist>
+            </ng-template>
+            <ng-template #template let-data>
+              {{ data.recordDiseaseName }}
+            </ng-template>
+            </e-column>
+            <e-column
+              field="recordNext"
+              [visible]="visibleNext"
+              textAlign="Left"
+              headerTextAlign="Center"
+              headerText="{{ 'Next' | translate }}"
+            >
+            <ng-template #editTemplate let-data>
+                <ejs-dropdownlist id='recordNext'
+                [(ngModel)]="data.recordNext"
+                (change)="onChangeRecordNext($event,data)"
+                [dataSource]="recordNextDataSource">
+                <ng-template #itemTemplate let-data>
+                  {{ data | translate }}
+                </ng-template>
+                <ng-template #valueTemplate="" let-data="">
+                  {{ data | translate }}
+              </ng-template>
+              </ejs-dropdownlist>
+            </ng-template>
+            <ng-template #template let-data>
+              {{ data.recordNext | translate }}
+            </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
